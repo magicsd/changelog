@@ -4,6 +4,7 @@ import cors from 'cors'
 
 import router from './router'
 import { protect } from './modules/auth'
+import { createNewUser, signIn } from './handlers/user'
 
 const app = express()
 
@@ -18,5 +19,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api', protect, router)
+
+app.post('/user', createNewUser)
+app.post('/sign-in', signIn)
 
 export default app
