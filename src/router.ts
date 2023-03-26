@@ -1,6 +1,8 @@
 import { Router } from 'express'
 import { body, validationResult } from 'express-validator'
 
+import { handleInputErrors } from './modules/middleware'
+
 const router = Router()
 
 /**
@@ -10,15 +12,17 @@ router.get('/product', (req, res) => {
   res.json({ message: 'hello'})
 })
 router.get('/product/:id', () => {})
-router.put('/product/:id', body('name').isString(), (req, res) => {
-  const errors = validationResult(req)
-console.log(errors)
-  if (!errors.isEmpty()) {
-    res.status(400)
-    res.json({ errors: errors.array() })
-  }
+
+router.put('/product/:id', body('name').isString(), handleInputErrors, (req, res) => {
+  res.status(200)
+  res.json({ message: 'All good' })
 })
-router.post('/product', () => {})
+
+router.post('/product', body('name').isString(), handleInputErrors, (req, res) => {
+  res.status(200)
+  res.json({ message: 'All good' })
+})
+
 router.delete('/product/:id', () => {})
 
 /**
